@@ -10,7 +10,7 @@ class Motor extends Model
     protected $connection = 'mongodb';
     protected $collection = 'motor';
 
-    protected $fillable = ['mesin', 'tipe_suspensi', 'tipe_transmisi'];
+    protected $fillable = ['kendaraan_id', 'mesin', 'tipe_suspensi', 'tipe_transmisi'];
 
     public function kendaraan()
     {

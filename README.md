@@ -1,64 +1,123 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Laravel 8 Cloning and Setup with MongoDB
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This guide provides step-by-step instructions on how to clone and set up the Laravel 8 project from the given repository, and configure it to use MongoDB as the database.
 
-## About Laravel
+## Prerequisites
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Before getting started, ensure that you have the following installed on your machine:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- PHP (7.4 or higher)
+- Composer
+- MongoDB
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Installation
 
-## Learning Laravel
+Follow these steps to clone and set up the Laravel 8 project with MongoDB:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/fahmiw/vehicle-apps-api.git
+    ```
+2. Navigate to the project directory:
+    ```bash
+    cd vehicle-apps-api
+    ```
+3. Install project dependencies using Composer:
+    ```bash
+    composer install
+    ```
+4. Install the MongoDB PHP extension:
+    ```bash
+    pecl install mongodb
+    ```
+5. Configure PHP to use the MongoDB extension:
+Locate your php.ini file (check phpinfo() output for "Loaded Configuration File").
+Add or uncomment the following line in php.ini:
+    ```ini
+    extension=mongodb
+    ```
+6. Update the Laravel database configuration:
+    Open the .env file in your project and update the following lines:
+    ```ini
+    DB_CONNECTION=mongodb
+    DB_HOST=127.0.0.1
+    DB_PORT=27017
+    DB_DATABASE=your-database-name
+    DB_USERNAME=
+    DB_PASSWORD=
+    ```
+7. Generate an application key:
+    ```bash
+    php artisan key:generate
+    ```
+8. Running the Application
+    To run the cloned Laravel application with MongoDB, execute the following commands:
+    ```bash
+    php artisan serve
+    ```
+    This command will start the development server, and you should see a message like "Laravel development server started: http://localhost:8000".
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+9. Open your postman and visit http://localhost:8000 to access the Laravel api.
 
-## Laravel Sponsors
+## API Endpoints
+The following API endpoints are available in the project:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+POST /register: Register a new user.
+```
+Example json input: 
+{
+    "name" : "Admin",
+    "email" : "admin13@gmail.com",
+    "phone_no" : "083212345212",
+    "password": "qwerty123",
+    "password_confirmation" : "qwerty1223"
+}
+```
+POST /login: Log in with user credentials.
+```
+Example json input: 
+{
+    "email": "admin@gmail.com",
+    "password": "qwerty123"
+}
+```
 
-### Premium Partners
+Notes : The API below requires a Header Authorization Bearer token
+GET /logout: Log out the authenticated user.
+POST /kendaraan/add: Add a new vehicle.
+```
+{
+    "tahun_kendaraan": "2010",
+    "warna": "putih",
+    "jenis": "2", // 1: motor, 2: mobil
+    "mesin": "DOHC",
+    "kapasitas_penumpang": "6",
+    "tipe": "manual"
+    //tipe_suspensi: ""
+    //tipe_transmisi: ""
+}
+```
+GET /kendaraan/stok: Get the stock of available vehicles.
+POST /kendaraan/penjualan: Record a vehicle sale.
+```
+{
+    "kendaraan_id": "64b738a77215c611380a74a9",
+    "tanggal_penjualan": "2023-07-25",
+    "harga_penjualan": "12000000000"
+}
+```
+GET /kendaraan/laporan-penjualan/{id}: Get the sales report for a specific vehicle by ID.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+## Unit Test
+To run unit test execute the following commands:
+    ```bash
+    composer test
+    ```
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Additional Information
+For more detailed instructions and information about Laravel, please refer to the official Laravel documentation: https://laravel.com/docs/8.x
+For MongoDB-specific information and queries, refer to the MongoDB documentation: https://docs.mongodb.com/
 
 ## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is licensed under the MIT License.
+Feel free to copy and use this updated template, which includes the steps to 

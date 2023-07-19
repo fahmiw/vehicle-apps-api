@@ -21,7 +21,10 @@ Route::post("login", [UserController::class, "login"]);
 
 Route::group(["middleware" => ["auth:api"]], function(){
     Route::get("logout", [UserController::class, "logout"]);
-    Route::get("stok-kendaraan", [KendaraanController::class, "stokKendaraan"]);
+    Route::post("kendaraan/add", [KendaraanController::class, "addKendaraan"]);
+    Route::get("kendaraan/stok", [KendaraanController::class, "stokKendaraan"]);
+    Route::post("kendaraan/penjualan", [KendaraanController::class, "penjualan"]);
+    Route::get("kendaraan/laporan-penjualan/{id}", [KendaraanController::class, "laporanPenjualan"]);
 });
     
 Route::middleware('auth:api')->get('/user', function (Request $request) {

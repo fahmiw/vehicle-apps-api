@@ -10,6 +10,8 @@ class Kendaraan extends Model
     protected $connection = 'mongodb';
     protected $collection = 'kendaraan';
 
+    protected $with = ['motor', 'mobil', 'penjualan'];
+
     protected $fillable = ['tahun_kendaraan', 'warna'];
 
     public function motor()
@@ -25,35 +27,5 @@ class Kendaraan extends Model
     public function penjualan()
     {
         return $this->hasMany(Penjualan::class);
-    }
-}
-
-class Motor extends Model
-{
-    protected $fillable = ['mesin', 'tipe_suspensi', 'tipe_transmisi'];
-
-    public function kendaraan()
-    {
-        return $this->belongsTo(Kendaraan::class);
-    }
-}
-
-class Mobil extends Model
-{
-    protected $fillable = ['mesin', 'kapasitas_penumpang', 'tipe'];
-
-    public function kendaraan()
-    {
-        return $this->belongsTo(Kendaraan::class);
-    }
-}
-
-class Penjualan extends Model
-{
-    protected $fillable = ['kendaraan_id', 'tanggal_penjualan', 'harga_penjualan'];
-
-    public function kendaraan()
-    {
-        return $this->belongsTo(Kendaraan::class);
     }
 }

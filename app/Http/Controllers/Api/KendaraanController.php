@@ -15,6 +15,10 @@ class KendaraanController extends Controller
         $this->kendaraanService = $kendaraanService;
     }
 
+    public function addKendaraan(Request $request) {
+        return $this->kendaraanService->add($request);
+    }
+
     public function stokKendaraan()
     {
         return $this->kendaraanService->getAllKendaraan();
@@ -22,15 +26,11 @@ class KendaraanController extends Controller
 
     public function penjualan(Request $request)
     {
-        // Validasi input request di sini
-
-        $penjualan = $this->kendaraanService->penjualanKendaraan($request->all());
-        return response()->json($penjualan, 201);
+        return $this->kendaraanService->penjualanKendaraan($request->all());
     }
 
     public function laporanPenjualan($id)
     {
-        $laporan = $this->kendaraanService->getLaporanPenjualan($id);
-        return response()->json($laporan);
+        return $this->kendaraanService->getLaporanPenjualan($id);
     }
 }

@@ -83,6 +83,7 @@ Example json input:
 ```
 
 Notes : The API below requires a Header Authorization Bearer token
+
 GET /logout: Log out the authenticated user.
 POST /kendaraan/add: Add a new vehicle.
 ```
